@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -71,7 +70,7 @@ function Identity({ onResultTypeChange }: IdentityProps) {
 
 function Result({ resultType, onResultTypeChange }: ResultProps) {
   return (
-    <Card className="w-full md:flex-grow mt-8 mx-auto md:ml-4">
+    <Card className="w-full md:flex-grow mx-auto md:ml-4">
       <CardHeader>
         <CardTitle>Query Result</CardTitle>
       </CardHeader>
@@ -95,7 +94,7 @@ function Result({ resultType, onResultTypeChange }: ResultProps) {
 
 function Contact() {
   return (
-    <Card className="w-full max-w-md mt-8 mx-auto">
+    <Card className="w-full md:flex-grow mx-auto md:ml-4 h-full">
       <CardHeader>
         <CardTitle>Get in Touch</CardTitle>
         <CardDescription>
@@ -128,22 +127,40 @@ function Contact() {
   );
 }
 
-function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
+function Mint({ onResultTypeChange }: IdentityProps) {
+  const [did, setDid] = useState<string>('');
+
+  const handleClear = () => {
+    setDid('');
+  };
+
+  const handleVerify = () => {
+    onResultTypeChange('Result');
+  };
+
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
+    <Card className="w-full md:max-w-sm mx-auto flex-grow h-full">
+      <CardHeader>
+        <CardTitle>Mint a DID</CardTitle>
+        <CardDescription>You just need to enter your XRPL addy and click on 'mint' button :) </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid gap-2">
+          <Label htmlFor="did">Our address</Label>
+          <Input
+            id="did"
+            value={did}
+            onChange={(e) => setDid(e.target.value)}
+            placeholder="Enter your address"
+          />
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-between space-x-4">
+        <div className="flex space-x-4 ml-auto">
+          <Button onClick={handleVerify}>Mint</Button>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -151,13 +168,16 @@ export default function App() {
   const [resultType, setResultType] = useState<string>('Result');
 
   return (
-    <div className="space-y-8 px-4 md:px-12">
+    <div className="space-y-8 px-4 md:px-12 min-h-screen flex flex-col">
       <NavBar />
       <div className="flex flex-col md:flex-row items-start md:space-x-4">
         <Identity onResultTypeChange={setResultType} />
         <Result resultType={resultType} onResultTypeChange={setResultType} />
       </div>
-      <Contact />
+      <div className="flex flex-col md:flex-row items-start md:space-x-4 flex-grow">
+        <Mint onResultTypeChange={setResultType} />
+        <Contact />
+      </div>
     </div>
   );
 }
