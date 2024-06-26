@@ -25,7 +25,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <header className="flex items-center justify-between px-4 py-8 md:px-6 bg-white dark:bg-gray-950 ">
+    <header className="flex items-center justify-between px-4 py-8 md:px-6 bg-white mt-8 rounded">
       <Link href="#" className="flex items-center" prefetch={false}>
         <Image src="/XRPLRESOLVER BLACK.png" alt="XRPL Resolver" width={200} height={200} className="w-30 h-auto" />
       </Link>
