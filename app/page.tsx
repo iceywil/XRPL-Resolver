@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import NavBar from "@/components/navbar/navbar";
+import confetti from "canvas-confetti";
+import { ConfettiButton } from "@/components/confetti";
 import Image from 'next/image';
 import SiteFooter from '@/components/footer';
 
@@ -14,9 +16,46 @@ interface IdentityProps {
 	onResultTypeChange: (resultType: string) => void;
 }
 
+export function ConfettiFireworks() {
+  const handleClick = () => {
+    const duration = 5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    const randomInRange = (min: number, max: number) =>
+      Math.random() * (max - min) + min;
+
+    const interval = window.setInterval(() => {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      });
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      });
+    }, 250);
+  };
+
+  return (
+    <div className="relative">
+      <Button onClick={handleClick}>Start Here</Button>
+    </div>
+  );
+}
+
 interface ResultProps {
 	resultType: string;
-	resultData?: string; // Ajout de resultData ici
+	resultData?: string; 
 	onResultTypeChange: (resultType: string) => void;
 }
 
@@ -62,11 +101,11 @@ function Welcome() {
 					</div>
 				</Card>
 			</div>
-			<Card className="w-full md:flex-grow mx-auto">
-				<CardHeader>
-					<CardTitle className="space-y-4 text-center">Start Here !</CardTitle>
-				</CardHeader>
-			</Card>
+      <Card className="w-full md:flex-grow mx-auto p-4">
+        <div className="flex justify-center py-4 text-lg">
+          <ConfettiFireworks />
+        </div>
+      </Card>
 		</div>
 	);
 }
