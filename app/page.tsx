@@ -403,13 +403,11 @@ function Verify({ onResultTypeChange }: IdentityProps) {
 			</Card>
 			<Card className="w-2/3 flex-grow flex flex-col">
 				<CardHeader>
-					<CardTitle className="text-lg">How to Resolve a DID</CardTitle>
+					<CardTitle className="text-lg">How VC works?</CardTitle>
 					<CardContent className="space-y-4 text-base">
 						<div className="text-l">
 							<br /><br />
-							Resolving a DID retrieves its DID document, containing keys and service endpoints. The resolver interprets the DID, accesses the relevant ledger, and provides the document, essential for secure identity verification in decentralized systems.
-							<br /><br />
-							Explore more on Universal Resolver. <a href="https://dev.uniresolver.io" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Learn more</a>
+							Verifiable Credentials (VCs) are secure digital documents that individuals can use to prove their identity or claims. When combined with Decentralized Identifiers (DIDs), which are unique and self-owned, VCs allow for privacy-preserving, decentralized identity management. <a href="https://dev.uniresolver.io" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Learn more</a>
 						</div>
 					</CardContent>
 				</CardHeader>

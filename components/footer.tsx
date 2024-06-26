@@ -12,6 +12,10 @@ const footerNavs = [
         href: "https://github.com/mainnet-did-resolver",
         name: "GitHub Mainnet DID Resolver",
       },
+      {
+        href: "https://github.com/XRPLF/XRPL-Standards/discussions/202",
+        name: "GitHub VC Amendment",
+      },
     ],
   },
 ];
