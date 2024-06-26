@@ -168,7 +168,7 @@ function Identity({ onResultTypeChange }: IdentityProps) {
           <Button onClick={handleToggleNetwork} className="flex-grow md:flex-grow-0">{network}</Button>
           <div className="flex space-x-4 ml-auto">
             <Button onClick={handleClear}>Clear</Button>
-            <Button onClick={handleVerify}>Verify</Button>
+            <Button onClick={handleVerify}>Resolve</Button>
           </div>
         </CardFooter>
       </Card>
@@ -384,9 +384,9 @@ export default function App() {
 
   const handleResultTypeChange = (type: string, data?: string) => {
     setResultType(type);
-    setResultData("did : did:xrpl:rNsD97gAPq9V3DRBfWkV32N6ihbF5oWBrD\n" +
-      "method : xrpl\n" +
-      "method-specific-id :rNsD97gAPq9V3DRBfWkV32N6ihbF5oWBrD \n");
+    setResultData("DID URL : did:xrpl:rNsD97gAPq9V3DRBfWkV32N6ihbF5oWBrD"+"\n" +
+      "| method : xrpl\n" +
+      "| method-specific-id : rNsD97gAPq9V3DRBfWkV32N6ihbF5oWBrD\n");
   };
 
   return (
