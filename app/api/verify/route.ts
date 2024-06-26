@@ -1,20 +1,17 @@
-import { NextResponse, NextRequest } from 'next/server';
+// pages/api/route.ts
+import { NextApiRequest, NextApiResponse } from 'next';
+import { runDoc } from '../../scripts/verifyDID'; // Assurez-vous que le chemin est correct
 
-export async function POST(request: NextRequest) {
-
- 
-  const { templateName, imageName } = await request.json();
-
-  if (!templateName || !imageName) {
-    return NextResponse.json({ error: 'Missing required fields in request body' }, { status: 400 });
-  }
-
-  try { 
-
-
-    return NextResponse.json({ message: "Template created successfully" });
-  } catch (error) {
-    console.error("Failed to connect to the database:", error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    try {
+      const result = runDoc();
+      res.status(200).json({ message: result });
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while executing the script.' });
+    }
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

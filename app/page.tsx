@@ -149,7 +149,28 @@ function Result({ resultType, onResultTypeChange }: ResultProps) {
 			<CardContent className="space-y-4">
 				<div className="mt-4 min-h-[92px]">
 					{resultType === 'Result' && <div>Displaying Result data...</div>}
-					{resultType === 'DID Document' && <div>`{didResult}`</div>}
+					{resultType === 'DID Document' && <div>`{`
+  "id": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+  "verificationMethod": [
+    {
+      "id": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller",
+      "type": "EcdsaSecp256k1RecoveryMethod2020",
+      "controller": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+      "blockchainAccountId": "eip155:1:0x3b0BC51Ab9De1e5B7B6E34E5b960285805C41736"
+    }
+  ],
+  "authentication": [
+    "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller"
+  ],
+  "assertionMethod": [
+    "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller"
+  ],
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/secp256k1recovery-2020/v2",
+    "https://w3id.org/security/v3-unstable"
+  ]
+`}`</div>}
 					{resultType === 'Resolution Metadata' && <div>Displaying Resolution Metadata data...</div>}
 					{resultType === 'Document Metadata' && <div>Displaying Document Metadata data...</div>}
 				</div>
