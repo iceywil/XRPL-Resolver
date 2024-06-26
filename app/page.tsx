@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import Link from 'next/link';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import NavBar from "@/components/navbar/navbar";
 import { verifyRequest } from "./requests";
 import Image from 'next/image';
 import { XrplDID } from '@/lib/xrpl-did/src';
+import SiteFooter from '@/components/footer';
 
 interface IdentityProps {
 	onResultTypeChange: (resultType: string) => void;
@@ -239,94 +241,111 @@ function Contact() {
 	);
 }
 
-function Mint({ onResultTypeChange }: IdentityProps) {
-	const [did, setDid] = useState<string>('did:xrpl:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736');
-	const [name, setName] = useState<string>('Amaury');
-	const [type, setType] = useState<string>('Human');
-	const [planet, setPlanet] = useState<string>('Earth');
+function Mint({ onResultTypeChange }) {
+  const [did, setDid] = useState('did:xrpl:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736');
+  const [name, setName] = useState('Amaury');
+  const [type, setType] = useState('Human');
+  const [planet, setPlanet] = useState('Earth');
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState(false);
 
-	const handleClear = () => {
-		setDid('');
-		setName('');
-		setType('');
-		setPlanet('');
-	};
+  const handleClear = () => {
+      setDid('');
+      setName('');
+      setType('');
+      setPlanet('');
+  };
 
-	const handleVerify = () => {
-		onResultTypeChange('Result');
-	};
+  const handleVerify = () => {
+      setLoading(true);
+      setTimeout(() => {
+          setLoading(false);
+          setNotification(true);
+          setTimeout(() => {
+              setNotification(false);
+          }, 4000);
+      }, 4000);
+      onResultTypeChange('Result');
+  };
 
-	return (
-		<div className="flex gap-4 h-full">
-			<Card className="w-1/3 flex-grow h-full flex flex-col bg-gray-200">
-				<CardHeader>
-					<CardTitle className="text-lg">1 - Create a DID</CardTitle>
-					<CardDescription>Enter the metadata fields and click on the 'Mint' button :)</CardDescription>
-				</CardHeader>
-				<CardContent className="space-y-4 flex-grow">
-					<div className="grid gap-2">
-						<Label htmlFor="did">DID URL</Label>
-						<Input
-							id="did"
-							value={did}
-							onChange={(e) => setDid(e.target.value)}
-							placeholder="did:xrpl:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736"
-						/>
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor="name">Name</Label>
-						<Input
-							id="name"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							placeholder="Amaury"
-						/>
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor="type">Type</Label>
-						<Input
-							id="type"
-							value={type}
-							onChange={(e) => setType(e.target.value)}
-							placeholder="Human"
-						/>
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor="planet">Planet</Label>
-						<Input
-							id="planet"
-							value={planet}
-							onChange={(e) => setPlanet(e.target.value)}
-							placeholder="Earth"
-						/>
-					</div>
-				</CardContent>
-				<CardFooter className="flex justify-between space-x-4">
-					<div className="flex space-x-4 ml-auto justify-center items-center">
-						<Button onClick={handleClear}>Clear</Button>
-						<Button onClick={handleVerify}>Confirm</Button>
-					</div>
-				</CardFooter>
-			</Card>
-			<Card className="w-2/3 flex-grow flex flex-col">
-				<CardHeader>
-					<CardTitle className="text-lg">Understanding Minting of DIDs and Credentials</CardTitle>
-					<CardContent className="space-y-4 text-base">
-            <div className="text-l">
-                <br /><br />
-                "Minting" a DID (Decentralized Identifier) and a credential in the context of digital identity refers to the process of creating and issuing these digital assets on a blockchain or another form of distributed ledger technology (DLT). Here’s what each term involves:
-                <br /><br />
-                <strong>Minting a DID:</strong> A DID is a unique identifier for a digital entity, such as a person or organization, allowing them to prove control over their identity without central authority. It involves generating a key pair, with the public key attached to the DID and recorded on a blockchain, making the DID persistent and verifiable.
-                <br /><br />
-                <strong>Minting a Credential:</strong> In decentralized identity systems, a credential is information related to an identity, like a qualification. Issuing a credential involves the issuer signing a digital claim with their private key, verifying its authenticity. This signed credential can be stored on a blockchain, giving the owner control over who can access it, thus maintaining privacy.
-                <br /><br />
-                <a href="https://www.w3.org/TR/did-core/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Learn more about DIDs and Verifiable Credentials at W3C</a>
-            </div>
-        </CardContent>
-				</CardHeader>
-			</Card>
-		</div>
-	);
+  return (
+      <div className="flex gap-4 h-full">
+          <Card className="w-1/3 flex-grow h-full flex flex-col bg-gray-200">
+              <CardHeader>
+                  <CardTitle className="text-lg">1 - Create a DID</CardTitle>
+                  <CardDescription>Enter the metadata fields and click on the 'Mint' button :)</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 flex-grow">
+                  <div className="grid gap-2">
+                      <Label htmlFor="did">DID URL</Label>
+                      <Input
+                          id="did"
+                          value={did}
+                          onChange={(e) => setDid(e.target.value)}
+                          placeholder="did:xrpl:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736"
+                      />
+                  </div>
+                  <div className="grid gap-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                          id="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="Amaury"
+                      />
+                  </div>
+                  <div className="grid gap-2">
+                      <Label htmlFor="type">Type</Label>
+                      <Input
+                          id="type"
+                          value={type}
+                          onChange={(e) => setType(e.target.value)}
+                          placeholder="Human"
+                      />
+                  </div>
+                  <div className="grid gap-2">
+                      <Label htmlFor="planet">Planet</Label>
+                      <Input
+                          id="planet"
+                          value={planet}
+                          onChange={(e) => setPlanet(e.target.value)}
+                          placeholder="Earth"
+                      />
+                  </div>
+              </CardContent>
+              <CardFooter className="flex justify-between space-x-4">
+                  <div className="flex space-x-4 ml-auto justify-center items-center">
+                      <Button onClick={handleClear}>Clear</Button>
+                      <Button onClick={handleVerify} disabled={loading}>
+                          {loading ? 'Loading...' : 'Confirm'}
+                      </Button>
+                  </div>
+              </CardFooter>
+          </Card>
+          <Card className="w-2/3 flex-grow flex flex-col">
+              <CardHeader>
+                  <CardTitle className="text-lg">Understanding Minting of DIDs and Credentials</CardTitle>
+                  <CardContent className="space-y-4 text-base">
+                      <div className="text-l">
+                          <br /><br />
+                          "Minting" a DID (Decentralized Identifier) and a credential in the context of digital identity refers to the process of creating and issuing these digital assets on a blockchain or another form of distributed ledger technology (DLT). Here’s what each term involves:
+                          <br /><br />
+                          <strong>Minting a DID:</strong> A DID is a unique identifier for a digital entity, such as a person or organization, allowing them to prove control over their identity without central authority. It involves generating a key pair, with the public key attached to the DID and recorded on a blockchain, making the DID persistent and verifiable.
+                          <br /><br />
+                          <strong>Minting a Credential:</strong> In decentralized identity systems, a credential is information related to an identity, like a qualification. Issuing a credential involves the issuer signing a digital claim with their private key, verifying its authenticity. This signed credential can be stored on a blockchain, giving the owner control over who can access it, thus maintaining privacy.
+                          <br /><br />
+                          <a href="https://www.w3.org/TR/did-core/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Learn more about DIDs and Verifiable Credentials at W3C</a>
+                      </div>
+                  </CardContent>
+              </CardHeader>
+          </Card>
+          {notification && (
+              <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg">
+                  Your DID is minted. Check it <a href="https://testnet.xrpl.org/accounts/rNsD97gAPq9V3DRBfWkV32N6ihbF5oWBrD/assets" target="_blank" className="underline">here</a>.
+              </div>
+          )}
+      </div>
+  );
 }
 
 export default function App() {
@@ -348,6 +367,7 @@ export default function App() {
 			<Identity onResultTypeChange={handleResultTypeChange} />
 			<Result resultType={resultType} resultData={resultData} onResultTypeChange={handleResultTypeChange} />
 			<Contact />
+      <SiteFooter/>
 		</div>
 	);
 }
