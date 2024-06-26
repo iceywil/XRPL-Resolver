@@ -11,8 +11,11 @@
   "dependencies": {
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "did-resolver": "^4.1.0",
+    "elliptic": "^6.5.5",
     "i": "^0.3.7",
     "lucide-react": "^0.395.0",
     "next": "14.2.4",
@@ -22,7 +25,8 @@
     "shadcn-ui": "^0.8.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "textarea": "^0.3.0"
+    "textarea": "^0.3.0",
+    "xrpl": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
