@@ -4,13 +4,10 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Link from 'next/link';
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import NavBar from "@/components/navbar/navbar";
-import { verifyRequest } from "./requests";
 import Image from 'next/image';
-import { XrplDID } from '@/lib/xrpl-did/src';
 import SiteFooter from '@/components/footer';
 
 interface IdentityProps {
