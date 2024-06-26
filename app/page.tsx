@@ -33,23 +33,30 @@ function Welcome() {
 						The ToolBox every developer needs ! You can learn everything about DID and how to implement it on the XRP Ledger ecosystem.
 					</div>
 				</CardContent>
-			</Card>
-			<div className="flex flex-col md:flex-row space-y-4 md:space-y-0">
-				<Card className="w-full md:flex-grow mx-auto">
-					<CardHeader>
-						<CardTitle className="text-lg">What is a DID ?
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-4 text-base">
-						<div className="text-l">
-							A DID or a Decentralized Identity is an approach to identify and authenticate users and entities without a centralized authority.<br />
-							<br />
-							With centralized identity systems, identity management is often siloed by a single authority where user identity is stored and authenticated. Centralized identity can be controlled and created by a government entity. For example, a state's department of motor vehicles controls a person's driver's license identification. Centralized identity may be as basic as a username and password created on an online service.
-							<br /><br />
-							In contrast, decentralized identity lets users and organizations manage and control their identity in a distributed approach. Rather than relying on a siloed identity provider, the decentralized model relies on a Web 3.0 approach, using distributed ledger technology (DLT), including blockchain, and storing information in a digital wallet.
-						</div>
-					</CardContent>
-				</Card>
+      </Card>
+
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0">
+      <Card className="w-full md:flex-grow mx-auto">
+        <CardHeader>
+          <CardTitle className="text-lg">What is a DID ?</CardTitle>
+            </CardHeader>
+              <CardContent className="space-y-4 text-base">
+                <div className="text-l">
+                    A DID or a Decentralized Identity is an approach to identify and authenticate users and entities without a centralized authority.
+                    <a href="https://www.w3.org/TR/did-core/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700"> Learn more about it</a>
+                    <br /><br />
+
+                    With centralized identity systems, identity management is often siloed by a single authority where user identity is stored and authenticated. Centralized identity can be controlled and created by a government entity. For example, a state's department of motor vehicles controls a person's driver's license identification. Centralized identity may be as basic as a username and password created on an online service.
+                    <a href="https://www.shareid.ai/blog/centralized-vs-decentralized-identity#:~:text=Decentralized%20identity%20models%20offer%20several,models%20also%20have%20some%20drawbacks." target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700"> Learn more about it</a>
+                    <br /><br />
+
+                    In contrast, decentralized identity lets users and organizations manage and control their identity in a distributed approach. Rather than relying on a siloed identity provider, the decentralized model relies on a Web 3.0 approach, using distributed ledger technology (DLT), including blockchain, and storing information in a digital wallet.
+                    <a href="https://www.pingidentity.com/en/resources/blog/post/blockchain-sidechains-decentraized-identity.html" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700"> Learn more about it</a>
+                </div>
+            </CardContent>
+        </Card>
+
+
 				<Card className="w-full md:flex-grow mx-auto md:ml-4">
 					<div className="flex justify-center items-center h-full">
 						<Image src="/DID-flow.png" alt="DID" width={600} height={200} />
@@ -91,14 +98,22 @@ function Identity({ onResultTypeChange }: IdentityProps) {
 
 	return (
 		<div className="flex gap-4 h-full">
-			<Card className="w-2/3 flex-grow flex flex-col">
+			
+      <Card className="w-2/3 flex-grow flex flex-col">
 				<CardHeader>
-					<CardTitle className="text-lg">Explaination</CardTitle>
-					<CardDescription>To prefill your DID URL according to our network, please just click on Network.</CardDescription>
+					<CardTitle className="text-lg">How to Resolve a DID</CardTitle>
+					<CardContent className="space-y-4 text-base">
+              <div className="text-l">
+              <br /><br />
+              Resolving a DID retrieves its DID document, containing keys and service endpoints. The resolver interprets the DID, accesses the relevant ledger, and provides the document, essential for secure identity verification in decentralized systems.
+              <br /><br />
+              Explore more on Universal Resolver. <a href="https://dev.uniresolver.io" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Learn more</a>
+              </div>
+          </CardContent>
 				</CardHeader>
-
 			</Card>
-			<Card className="w-1/3 flex-grow h-full flex flex-col bg-gray-200">
+			 
+      <Card className="w-1/3 flex-grow h-full flex flex-col bg-gray-200">
 				<CardHeader>
 					<CardTitle className="text-lg">2 - Resolve a DID</CardTitle>
 					<CardDescription>To prefill your DID URL according to your network, please just click on Network. We support XRPL Mainnet and XRPL EVM Sidechain.</CardDescription>
@@ -295,8 +310,19 @@ function Mint({ onResultTypeChange }: IdentityProps) {
 			</Card>
 			<Card className="w-2/3 flex-grow flex flex-col">
 				<CardHeader>
-					<CardTitle className="text-lg">Explanation</CardTitle>
-					<CardDescription>When creating a DID, a wallet will sign a Set DID transaction onchain that will create the DID object</CardDescription>
+					<CardTitle className="text-lg">Understanding Minting of DIDs and Credentials</CardTitle>
+					<CardContent className="space-y-4 text-base">
+            <div className="text-l">
+                <br /><br />
+                "Minting" a DID (Decentralized Identifier) and a credential in the context of digital identity refers to the process of creating and issuing these digital assets on a blockchain or another form of distributed ledger technology (DLT). Here’s what each term involves:
+                <br /><br />
+                <strong>Minting a DID:</strong> A DID is a unique identifier for a digital entity, such as a person or organization, allowing them to prove control over their identity without central authority. It involves generating a key pair, with the public key attached to the DID and recorded on a blockchain, making the DID persistent and verifiable.
+                <br /><br />
+                <strong>Minting a Credential:</strong> In decentralized identity systems, a credential is information related to an identity, like a qualification. Issuing a credential involves the issuer signing a digital claim with their private key, verifying its authenticity. This signed credential can be stored on a blockchain, giving the owner control over who can access it, thus maintaining privacy.
+                <br /><br />
+                <a href="https://www.w3.org/TR/did-core/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Learn more about DIDs and Verifiable Credentials at W3C</a>
+            </div>
+        </CardContent>
 				</CardHeader>
 			</Card>
 		</div>
