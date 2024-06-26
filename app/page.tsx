@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import NavBar from "@/components/navbar/navbar";
 import { verifyRequest } from "./requests";
 import Image from 'next/image';
+import { XrplDID } from '@/lib/xrpl-did/src';
 
 interface IdentityProps {
 	onResultTypeChange: (resultType: string) => void;
@@ -16,6 +17,7 @@ interface IdentityProps {
 
 interface ResultProps {
 	resultType: string;
+	resultData?: string; // Ajout de resultData ici
 	onResultTypeChange: (resultType: string) => void;
 }
 
@@ -82,8 +84,9 @@ function Identity({ onResultTypeChange }: IdentityProps) {
 	};
 
 	const handleVerify = async () => {
+		//const result = await verifyRequest(did);
+		const result = "aaa";
 		onResultTypeChange('Result');
-		await verifyRequest(did);
 	};
 
 	return (
@@ -93,29 +96,12 @@ function Identity({ onResultTypeChange }: IdentityProps) {
 					<CardTitle className="text-lg">Explaination</CardTitle>
 					<CardDescription>To prefill your DID URL according to our network, please just click on Network.</CardDescription>
 				</CardHeader>
-				<CardContent className="space-y-4">
-					<div className="grid gap-2">
-						<Label htmlFor="did">Your DID URL</Label>
-						<Input
-							id="did"
-							value={did}
-							onChange={(e) => setDid(e.target.value)}
-							placeholder="Enter your DID URL"
-						/>
-					</div>
-				</CardContent>
-				<CardFooter className="flex justify-between space-x-4">
-					<Button onClick={handleToggleNetwork} className="flex-grow md:flex-grow-0">{network}</Button>
-					<div className="flex space-x-4 ml-auto">
-						<Button onClick={handleClear}>Clear</Button>
-						<Button onClick={handleVerify}>Verify</Button>
-					</div>
-				</CardFooter>
+
 			</Card>
 			<Card className="w-1/3 flex-grow h-full flex flex-col bg-gray-200">
 				<CardHeader>
-					<CardTitle className="text-lg">2 - Verify a DID</CardTitle>
-					<CardDescription>To prefill your DID URL according to our network, please just click on Network.</CardDescription>
+					<CardTitle className="text-lg">2 - Resolve a DID</CardTitle>
+					<CardDescription>To prefill your DID URL according to your network, please just click on Network. We support XRPL Mainnet and XRPL EVM Sidechain.</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<div className="grid gap-2">
@@ -140,7 +126,46 @@ function Identity({ onResultTypeChange }: IdentityProps) {
 	);
 }
 
-function Result({ resultType, onResultTypeChange }: ResultProps) {
+function Result({ resultType, resultData, onResultTypeChange }: ResultProps) {
+	const didDocument = {
+		id: "did:xrpl:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+		verificationMethod: [
+			{
+				id: "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller",
+				type: "EcdsaSecp256k1RecoveryMethod2020",
+				controller: "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+				blockchainAccountId: "eip155:1:0x3b0BC51Ab9De1e5B7B6E34E5b960285805C41736"
+			}
+		],
+		authentication: [
+			"did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller"
+		],
+		assertionMethod: [
+			"did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller"
+		],
+		"@context": [
+			"https://www.w3.org/ns/did/v1",
+			"https://w3id.org/security/suites/secp256k1recovery-2020/v2",
+			"https://w3id.org/security/v3-unstable"
+		]
+	};
+	const resolutionMetadata = {
+		"contentType": "application/did+ld+json",
+		"pattern": "^(did:ethr:.+)$",
+		"driverUrl": "http://uni-resolver-driver-did-uport:8081/1.0/identifiers/",
+		"duration": 114,
+		"did": {
+			"didString": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+			"methodSpecificId": "mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+			"method": "ethr"
+		}
+	}
+
+	const docMetadata = {
+		"name": "Amaury",
+		"type": "Human",
+		"planet": "Earth"
+	};
 	return (
 		<Card className="w-full md:flex-grow mx-auto">
 			<CardHeader>
@@ -148,31 +173,10 @@ function Result({ resultType, onResultTypeChange }: ResultProps) {
 			</CardHeader>
 			<CardContent className="space-y-4">
 				<div className="mt-4 min-h-[92px]">
-					{resultType === 'Result' && <div>Displaying Result data...</div>}
-					{resultType === 'DID Document' && <div>`{`
-  "id": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
-  "verificationMethod": [
-    {
-      "id": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller",
-      "type": "EcdsaSecp256k1RecoveryMethod2020",
-      "controller": "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
-      "blockchainAccountId": "eip155:1:0x3b0BC51Ab9De1e5B7B6E34E5b960285805C41736"
-    }
-  ],
-  "authentication": [
-    "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller"
-  ],
-  "assertionMethod": [
-    "did:ethr:mainnet:0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736#controller"
-  ],
-  "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://w3id.org/security/suites/secp256k1recovery-2020/v2",
-    "https://w3id.org/security/v3-unstable"
-  ]
-`}`</div>}
-					{resultType === 'Resolution Metadata' && <div>Displaying Resolution Metadata data...</div>}
-					{resultType === 'Document Metadata' && <div>Displaying Document Metadata data...</div>}
+					{resultType === 'Result' && <div>{resultData}</div>}
+					{resultType === 'DID Document' && (<pre>{JSON.stringify(didDocument, null, 2)}</pre>)}
+					{resultType === 'Resolution Metadata' && (<pre>{JSON.stringify(resolutionMetadata, null, 2)}</pre>)}
+					{resultType === 'Document Metadata' && (<pre>{JSON.stringify(docMetadata, null, 2)}</pre>)}
 				</div>
 			</CardContent>
 			<CardFooter className="flex flex-wrap space-x-4 ml-auto justify-end">
@@ -221,10 +225,16 @@ function Contact() {
 }
 
 function Mint({ onResultTypeChange }: IdentityProps) {
-	const [did, setDid] = useState<string>('');
+	const [did, setDid] = useState<string>('did:xrpl:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736');
+	const [name, setName] = useState<string>('Amaury');
+	const [type, setType] = useState<string>('Human');
+	const [planet, setPlanet] = useState<string>('Earth');
 
 	const handleClear = () => {
 		setDid('');
+		setName('');
+		setType('');
+		setPlanet('');
 	};
 
 	const handleVerify = () => {
@@ -235,47 +245,59 @@ function Mint({ onResultTypeChange }: IdentityProps) {
 		<div className="flex gap-4 h-full">
 			<Card className="w-1/3 flex-grow h-full flex flex-col bg-gray-200">
 				<CardHeader>
-					<CardTitle className="text-lg">1 - Mint a DID</CardTitle>
-					<CardDescription>You just need to enter your XRPL addy and click on 'mint' button :)</CardDescription>
+					<CardTitle className="text-lg">1 - Create a DID</CardTitle>
+					<CardDescription>Enter the metadata fields and click on the 'Mint' button :)</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-4 flex-grow">
 					<div className="grid gap-2">
-						<Label htmlFor="did">Our address</Label>
+						<Label htmlFor="did">DID URL</Label>
 						<Input
 							id="did"
 							value={did}
 							onChange={(e) => setDid(e.target.value)}
-							placeholder="Enter your address"
+							placeholder="did:xrpl:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736"
+						/>
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="name">Name</Label>
+						<Input
+							id="name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							placeholder="Amaury"
+						/>
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="type">Type</Label>
+						<Input
+							id="type"
+							value={type}
+							onChange={(e) => setType(e.target.value)}
+							placeholder="Human"
+						/>
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="planet">Planet</Label>
+						<Input
+							id="planet"
+							value={planet}
+							onChange={(e) => setPlanet(e.target.value)}
+							placeholder="Earth"
 						/>
 					</div>
 				</CardContent>
 				<CardFooter className="flex justify-between space-x-4">
 					<div className="flex space-x-4 ml-auto justify-center items-center">
-						<Button onClick={handleVerify}>Mint</Button>
+						<Button onClick={handleClear}>Clear</Button>
+						<Button onClick={handleVerify}>Confirm</Button>
 					</div>
 				</CardFooter>
 			</Card>
 			<Card className="w-2/3 flex-grow flex flex-col">
 				<CardHeader>
 					<CardTitle className="text-lg">Explanation</CardTitle>
-					<CardDescription>When minting a DID, a wallet will sign a Set DID transaction onchain that will create the DID object</CardDescription>
+					<CardDescription>When creating a DID, a wallet will sign a Set DID transaction onchain that will create the DID object</CardDescription>
 				</CardHeader>
-				<CardContent className="space-y-4 flex-grow">
-					<div className="grid gap-2">
-						<Label htmlFor="did">Our address</Label>
-						<Input
-							id="did"
-							value={did}
-							onChange={(e) => setDid(e.target.value)}
-							placeholder="Enter your address"
-						/>
-					</div>
-				</CardContent>
-				<CardFooter className="flex justify-between space-x-4">
-					<div className="flex space-x-4 ml-auto justify-center items-center">
-						<Button onClick={handleVerify}>Mint</Button>
-					</div>
-				</CardFooter>
 			</Card>
 		</div>
 	);
@@ -283,14 +305,22 @@ function Mint({ onResultTypeChange }: IdentityProps) {
 
 export default function App() {
 	const [resultType, setResultType] = useState<string>('Result');
+	const [resultData, setResultData] = useState<string>('');
+
+	const handleResultTypeChange = (type: string, data?: string) => {
+		setResultType(type);
+		setResultData("did : did:ethr:mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736\n" +
+			"method : xrpl\n" +
+			"method-specific-id : mainnet:3b0bc51ab9de1e5b7b6e34e5b960285805c41736\n");
+	};
 
 	return (
-		<div className="px-3/5 md:px-40 min-h-screen flex flex-col gap-4">
+		<div className="px-3/5 md:px-40 min-h-screen flex flex-col gap-4 bg-gray-800">
 			<NavBar />
 			<Welcome />
-			<Mint onResultTypeChange={setResultType} />
-			<Identity onResultTypeChange={setResultType} />
-			<Result resultType={resultType} onResultTypeChange={setResultType} />
+			<Mint onResultTypeChange={handleResultTypeChange} />
+			<Identity onResultTypeChange={handleResultTypeChange} />
+			<Result resultType={resultType} resultData={resultData} onResultTypeChange={handleResultTypeChange} />
 			<Contact />
 		</div>
 	);
